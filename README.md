@@ -39,7 +39,7 @@ Copia `config.properties.example` a `src/main/resources/config.properties` y com
 ```
 db.url=jdbc:mysql://mysql5050.site4now.net:3306/db_acfbe1_ventas
 db.usuario=acfbe1_ventas
-db.password=David.291998
+db.password=tu contraseña
 db.pool.maximo=10
 ```
 
@@ -49,9 +49,9 @@ El script de creación de la base de datos está en `database/ScriptSQL.sql`.
 
 | Rol           | Usuario     | Contraseña |
 |---------------|-------------|------------|
-| Administrador | admin       | admin123 |
-| Supervisor    | supervisor  | super123 |
-| Operador      | operador    | oper123 |
+| Administrador | admin       | tu contraseña |
+| Supervisor    | supervisor  | tu contraseña |
+| Operador      | operador    | tu contraseña |
 
 > Nota: al ingresar por primera vez con cada usuario, el sistema solicitará configurar la autenticación de dos factores (2FA) escaneando un código QR con una app autenticadora (Google Authenticator, Authy, etc.).
 
