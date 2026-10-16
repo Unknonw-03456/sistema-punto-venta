@@ -9,6 +9,7 @@ public class Venta {
     private Cliente cliente;
     private Empleado empleado;
     private ArrayList<DetalleVenta> detalles;
+    private Pago pago;
 
     public Venta(String numeroFactura, Cliente cliente, Empleado empleado) {
         this.numeroFactura = numeroFactura;
@@ -52,6 +53,14 @@ public class Venta {
 
     public ArrayList<DetalleVenta> getDetalles() {
         return detalles;
+    }
+
+    public Pago getPago() {
+        return pago;
+    }
+
+    public void setPago(Pago pago) {
+        this.pago = pago;
     }
 
     // Agrega un producto a la venta y reduce su stock

@@ -3,16 +3,22 @@ package modelo;
 public class Producto {
     private String codigo;
     private String nombre;
-    private String categoria;
     private double precio;
     private int stock;
+    private Categoria categoria;
+    private Proveedor proveedor;
 
-    public Producto(String codigo, String nombre, String categoria, double precio, int stock) {
+    public Producto() {
+    }
+
+    public Producto(String codigo, String nombre, double precio, int stock,
+                     Categoria categoria, Proveedor proveedor) {
         this.codigo = codigo;
         this.nombre = nombre;
-        this.categoria = categoria;
         this.precio = precio;
         this.stock = stock;
+        this.categoria = categoria;
+        this.proveedor = proveedor;
     }
 
     public String getCodigo() {
@@ -31,14 +37,6 @@ public class Producto {
         this.nombre = nombre;
     }
 
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
     public double getPrecio() {
         return precio;
     }
@@ -53,6 +51,22 @@ public class Producto {
 
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    public Proveedor getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(Proveedor proveedor) {
+        this.proveedor = proveedor;
     }
 
     // Reduce el stock cuando se vende el producto

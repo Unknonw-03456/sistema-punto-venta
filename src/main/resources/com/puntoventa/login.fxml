@@ -12,8 +12,8 @@
       <TextField fx:id="txtUsuario" />
       <Label text="Contraseña" />
       <PasswordField fx:id="txtContrasena" />
-      <Button mnemonicParsing="false" onAction="#iniciarSesion" text="Iniciar Sesión" />
-      <Button mnemonicParsing="false" onAction="#salir" text="Salir" />
+      <Button fx:id="btnIniciar" mnemonicParsing="false" onAction="#iniciarSesion" text="Iniciar Sesión" />
+      <Button fx:id="btnSalir" mnemonicParsing="false" onAction="#salir" text="Salir" />
       <Button fx:id="btnRegistro" mnemonicParsing="false" onAction="#abrirRegistro" text="¿No tienes cuenta? Regístrate" />
       <Label fx:id="lblMensaje" text="" />
    </children>

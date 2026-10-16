@@ -1,0 +1,211 @@
+/* ===================== PALETA DE COLORES — SISTEMA PUNTO DE VENTA ===================== */
+.root {
+    -color-primario: #1E3A8A;
+    -color-secundario: #0EA5E9;
+    -color-acento: #F97316;
+    -color-fondo: #F1F5F9;
+    -color-superficie: #FFFFFF;
+    -color-texto: #0F172A;
+    -color-texto-claro: #FFFFFF;
+    -color-exito: #15803D;
+    -color-advertencia: #B45309;
+    -color-error: #DC2626;
+
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-background-color: -color-fondo;
+}
+
+/* ===== Texto base ===== */
+.label {
+    -fx-text-fill: -color-texto;
+}
+
+.label-titulo {
+    -fx-text-fill: -color-texto;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+/* ===== Menú / barra lateral ===== */
+.menu-lateral {
+    -fx-background-color: -color-primario;
+}
+
+.menu-lateral .label,
+.menu-lateral .button {
+    -fx-text-fill: -color-texto-claro;
+}
+
+.menu-bar {
+    -fx-background-color: -color-primario;
+}
+
+.menu-bar .label {
+    -fx-text-fill: -color-texto-claro;
+}
+
+/* ===== Botones ===== */
+.button {
+    -fx-background-color: -color-superficie;
+    -fx-text-fill: -color-texto;
+    -fx-border-color: -color-secundario;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-padding: 6px 14px;
+    -fx-cursor: hand;
+}
+
+.button-primario {
+    -fx-background-color: -color-primario;
+    -fx-text-fill: -color-texto-claro;
+    -fx-border-color: transparent;
+}
+
+.button-acento {
+    -fx-background-color: -color-acento;
+    -fx-text-fill: -color-texto;
+    -fx-border-color: transparent;
+    -fx-font-weight: bold;
+}
+
+.button-peligro {
+    -fx-background-color: -color-error;
+    -fx-text-fill: -color-texto-claro;
+    -fx-border-color: transparent;
+}
+
+.button:hover {
+    -fx-opacity: 0.9;
+}
+
+/* ===== Formularios ===== */
+.text-field, .password-field, .combo-box, .text-area {
+    -fx-background-color: -color-superficie;
+    -fx-text-fill: -color-texto;
+    -fx-border-color: -color-secundario;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-padding: 6px;
+}
+
+.text-field:focused, .combo-box:focused {
+    -fx-border-color: -color-primario;
+    -fx-border-width: 2px;
+}
+
+/* ===== TableView ===== */
+.table-view {
+    -fx-background-color: -color-superficie;
+    -fx-border-color: -color-secundario;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: -color-primario;
+}
+
+.table-view .column-header-background .label {
+    -fx-text-fill: -color-texto-claro;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell {
+    -fx-background-color: -color-superficie;
+    -fx-text-fill: -color-texto;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: derive(-color-fondo, 0%);
+}
+
+.table-row-cell:selected {
+    -fx-background-color: -color-secundario;
+    -fx-text-fill: -color-texto-claro;
+}
+
+/* ===== Alertas (login, validaciones) ===== */
+.alerta-exito {
+    -fx-text-fill: -color-exito;
+    -fx-font-weight: bold;
+}
+
+.alerta-advertencia {
+    -fx-text-fill: -color-advertencia;
+    -fx-font-weight: bold;
+}
+
+.alerta-error {
+    -fx-text-fill: -color-error;
+    -fx-font-weight: bold;
+}
+
+/* Alert / Dialog de JavaFX */
+.dialog-pane {
+    -fx-background-color: -color-superficie;
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: -color-primario;
+}
+
+.dialog-pane .header-panel .label {
+    -fx-text-fill: -color-texto-claro;
+}
+
+/* ===== Dashboard: tarjetas de KPI ===== */
+.tarjeta-kpi {
+    -fx-background-color: -color-superficie;
+    -fx-background-radius: 8px;
+    -fx-border-color: -color-secundario;
+    -fx-border-radius: 8px;
+    -fx-padding: 14px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 6, 0, 0, 2);
+}
+
+.tarjeta-kpi .label-valor {
+    -fx-text-fill: -color-primario;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.tarjeta-kpi .label-descripcion {
+    -fx-text-fill: -color-texto;
+    -fx-font-size: 12px;
+}
+
+/* ===== Diseño responsive (según el ancho de la ventana) ===== */
+/* Escritorio: >= 1000px de ancho (apto para 1366x768) */
+.modo-escritorio .tarjeta-kpi {
+    -fx-pref-width: 170px;
+}
+
+/* Tableta: entre 500px y 1000px (apto para 1024x768 / 768x1024) */
+.modo-tableta .tarjeta-kpi {
+    -fx-pref-width: 150px;
+}
+
+.modo-tableta .label-titulo {
+    -fx-font-size: 16px;
+}
+
+/* Teléfono: menos de 500px (apto para 412x915) */
+.modo-telefono .tarjeta-kpi {
+    -fx-pref-width: 130px;
+    -fx-padding: 8px;
+}
+
+.modo-telefono .label-valor {
+    -fx-font-size: 18px;
+}
+
+.modo-telefono .label-titulo {
+    -fx-font-size: 14px;
+}
+
+.modo-telefono .button {
+    -fx-font-size: 11px;
+    -fx-padding: 4px 8px;
+}
+
+.modo-telefono .tab-pane .tab .tab-label {
+    -fx-font-size: 10px;
+}

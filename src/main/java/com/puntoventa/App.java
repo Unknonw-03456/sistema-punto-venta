@@ -14,6 +14,8 @@ public class App extends Application {
         Parent root = loader.load();
 
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/com/puntoventa/css/styles.css").toExternalForm());
+stage.setTitle("Sistema Punto de Venta - Login");
         stage.setTitle("Sistema Punto de Venta - Login");
         stage.setScene(scene);
         stage.show();

@@ -1,26 +1,19 @@
 package modelo;
 
-public class Empleado {
-    private String id;
+public class Empleado extends Usuario {
     private String nombre;
     private String cargo;
-    private String usuario;
-    private String contrasena;
+    private Rol rol;
 
-    public Empleado(String id, String nombre, String cargo, String usuario, String contrasena) {
-        this.id = id;
+    public Empleado() {
+        super();
+    }
+
+    public Empleado(int id, String usuario, String contrasena, String nombre, String cargo, Rol rol) {
+        super(id, usuario, contrasena);
         this.nombre = nombre;
         this.cargo = cargo;
-        this.usuario = usuario;
-        this.contrasena = contrasena;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+        this.rol = rol;
     }
 
     public String getNombre() {
@@ -39,25 +32,12 @@ public class Empleado {
         this.cargo = cargo;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public Rol getRol() {
+        return rol;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getContrasena() {
-        return contrasena;
-    }
-
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
-    }
-
-    // Usado por la pantalla de Login (Mini Practica No. 1)
-    public boolean validarCredenciales(String usuarioIngresado, String contrasenaIngresada) {
-        return this.usuario.equals(usuarioIngresado) && this.contrasena.equals(contrasenaIngresada);
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
 
     @Override
