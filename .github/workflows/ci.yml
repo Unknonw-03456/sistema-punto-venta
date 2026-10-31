@@ -1,0 +1,42 @@
+name: CI
+
+# Se ejecuta cada vez que se sube código a la rama principal o se abre un pull request.
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar el código del repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar JDK 21 (con caché de Maven)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      # compilar -> ejecutar las pruebas JUnit -> generar el JAR y copiar las dependencias.
+      # Si una prueba falla, Maven termina con error y los pasos siguientes no se ejecutan.
+      - name: Compilar, ejecutar pruebas JUnit y empaquetar
+        run: mvn -B clean verify
+
+      - name: Guardar los reportes de las pruebas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reportes-junit
+          path: target/surefire-reports/
+
+      - name: Guardar el artefacto de la aplicación (JAR + dependencias)
+        uses: actions/upload-artifact@v4
+        with:
+          name: sistema-punto-venta
+          path: |
+            target/*.jar
+            target/libs/
