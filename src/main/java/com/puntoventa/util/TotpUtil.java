@@ -55,7 +55,7 @@ public class TotpUtil {
         return false;
     }
 
-    private static String generarCodigo(String secreto, long paso) {
+     static String generarCodigo(String secreto, long paso) {
         try {
             byte[] clave = Base32.decode(secreto);
             byte[] datosContador = ByteBuffer.allocate(8).putLong(paso).array();

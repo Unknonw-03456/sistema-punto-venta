@@ -51,7 +51,10 @@ public class ConexionBD {
     // Patrón singleton: solo existe una conexión activa a la vez, tomada del pool de HikariCP.
     public static Connection getConexion() {
         try {
-            if (conexion == null || conexion.isClosed()) {
+            if (conexion == null || conexion.isClosed() || !conexion.isValid(2)) {
+                if (conexion != null) {
+                    try { conexion.close(); } catch (Exception ignorada) { }
+        }
                 conexion = dataSource.getConnection();
                 System.out.println("Conexión exitosa a la base de datos.");
             }

@@ -10,6 +10,12 @@
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
     <dependencies>
+    <dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter</artifactId>
+    <version>5.10.3</version>
+    <scope>test</scope>
+</dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -24,6 +30,15 @@
     </dependencies>
     <build>
         <plugins>
+
+            <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <version>3.5.4</version>
+    <configuration>
+        <useModulePath>false</useModulePath>
+    </configuration>
+</plugin>
                         <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
