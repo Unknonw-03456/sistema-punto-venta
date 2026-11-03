@@ -7,23 +7,34 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import com.puntoventa.database.ConexionBD;
+import modelo.Categoria;
 import modelo.Producto;
+import modelo.Proveedor;
 
 public class ProductoDAO {
 
+    /** Lista los productos con su categoría y proveedor (para poder preseleccionarlos al editar). */
     public ObservableList<Producto> listar() {
         ObservableList<Producto> lista = FXCollections.observableArrayList();
-        String sql = "SELECT codigo, nombre, precio, stock FROM productos";
+        String sql = "SELECT p.codigo, p.nombre, p.precio, p.stock, "
+                + "p.id_categoria, c.nombre AS categoria_nombre, "
+                + "p.id_proveedor, pr.nombre AS proveedor_nombre "
+                + "FROM productos p "
+                + "LEFT JOIN categorias c ON c.id_categoria = p.id_categoria "
+                + "LEFT JOIN proveedores pr ON pr.id_proveedor = p.id_proveedor "
+                + "ORDER BY p.codigo";
         try (PreparedStatement stmt = ConexionBD.getConexion().prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
+                Categoria categoria = new Categoria(rs.getInt("id_categoria"), rs.getString("categoria_nombre"), null);
+                Proveedor proveedor = new Proveedor(rs.getInt("id_proveedor"), rs.getString("proveedor_nombre"), null);
                 lista.add(new Producto(
                         rs.getString("codigo"),
                         rs.getString("nombre"),
                         rs.getDouble("precio"),
                         rs.getInt("stock"),
-                        null,
-                        null
+                        categoria,
+                        proveedor
                 ));
             }
         } catch (Exception e) {

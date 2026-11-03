@@ -7,7 +7,9 @@ import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -23,14 +25,18 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -53,29 +59,119 @@ public class DashboardController {
     private final String rolActual = Sesion.getRolActual();
 
     public Scene crearEscena() {
-        TabPane tabPane = new TabPane();
-        tabPane.getTabs().addAll(
-                crearTabInicio(),
-                crearTabProductos(),
-                crearTabClientes(),
-                crearTabCategorias(),
-                crearTabReportes()
-        );
-        if ("Administrador".equals(rolActual)) {
-            tabPane.getTabs().add(crearTabUsuarios());
+        BorderPane raiz = new BorderPane();
+        Label lblModulo = new Label();
+        lblModulo.getStyleClass().add("encabezado-modulo");
+
+        // ---------- Barra superior: título del módulo, usuario y cierre de sesión ----------
+        Label lblUsuario = new Label(Sesion.getActual().getNombre() + "  |  " + rolActual);
+        lblUsuario.getStyleClass().add("encabezado-usuario");
+        Button btnCerrarSesion = new Button("Cerrar sesión");
+        btnCerrarSesion.getStyleClass().add("button-peligro");
+        btnCerrarSesion.setOnAction(e -> cerrarSesion(raiz));
+
+        Region espacio = new Region();
+        HBox.setHgrow(espacio, Priority.ALWAYS);
+        HBox barraSuperior = new HBox(14, lblModulo, espacio, lblUsuario, btnCerrarSesion);
+        barraSuperior.setAlignment(Pos.CENTER_LEFT);
+        barraSuperior.getStyleClass().add("barra-superior");
+        barraSuperior.setPadding(new Insets(12, 20, 12, 20));
+
+        // ---------- Menú lateral ----------
+        VBox menu = new VBox(6);
+        menu.getStyleClass().add("menu-lateral");
+        menu.setPadding(new Insets(16, 10, 16, 10));
+        menu.setPrefWidth(210);
+
+        Label lblMarca = new Label("PUNTO DE VENTA");
+        lblMarca.getStyleClass().add("menu-marca");
+        Label lblSub = new Label("Refrigeración");
+        lblSub.getStyleClass().add("menu-submarca");
+        menu.getChildren().addAll(lblMarca, lblSub, new Region());
+
+        ToggleGroup grupo = new ToggleGroup();
+        ToggleButton btnInicio = crearBotonMenu("\u2302  Inicio", grupo);
+        btnInicio.setOnAction(e -> mostrarModulo(raiz, lblModulo, "Inicio", crearTabInicio().getContent()));
+
+        ToggleButton btnProductos = crearBotonMenu("\u25A3  Productos", grupo);
+        btnProductos.setOnAction(e -> mostrarModulo(raiz, lblModulo, "Productos", crearTabProductos().getContent()));
+
+        ToggleButton btnClientes = crearBotonMenu("\u263A  Clientes", grupo);
+        btnClientes.setOnAction(e -> mostrarModulo(raiz, lblModulo, "Clientes", crearTabClientes().getContent()));
+
+        ToggleButton btnCategorias = crearBotonMenu("\u2630  Categorías", grupo);
+        btnCategorias.setOnAction(e -> mostrarModulo(raiz, lblModulo, "Categorías", crearTabCategorias().getContent()));
+
+        ToggleButton btnReportes = crearBotonMenu("\u2261  Reportes", grupo);
+        btnReportes.setOnAction(e -> mostrarModulo(raiz, lblModulo, "Reportes", crearTabReportes().getContent()));
+
+        menu.getChildren().addAll(btnInicio, btnProductos, btnClientes, btnCategorias, btnReportes);
+
+        if (Roles.ADMINISTRADOR.equals(rolActual)) {
+            ToggleButton btnUsuarios = crearBotonMenu("\u2699  Usuarios", grupo);
+            btnUsuarios.setOnAction(e -> mostrarModulo(raiz, lblModulo, "Usuarios", crearTabUsuarios().getContent()));
+            menu.getChildren().add(btnUsuarios);
         }
-        Scene escena = new Scene(tabPane, 900, 600);
+
+        raiz.setTop(barraSuperior);
+        raiz.setLeft(menu);
+
+        // El módulo Inicio se vuelve a construir cada vez que se abre: así los
+        // indicadores y gráficos siempre muestran los datos actuales de la BD.
+        btnInicio.setSelected(true);
+        mostrarModulo(raiz, lblModulo, "Inicio", crearTabInicio().getContent());
+
+        Scene escena = new Scene(raiz, 1150, 700);
         escena.getStylesheets().add(getClass().getResource("/com/puntoventa/css/styles.css").toExternalForm());
 
         // Diseño responsive: según el ancho de la ventana se aplica una clase CSS
-        // distinta (escritorio / tableta / teléfono), que ajusta tamaños de letra,
-        // tarjetas y botones. Los FlowPane de la pestaña Inicio ya reacomodan sus
-        // tarjetas y gráficos solos cuando el ancho disponible cambia.
+        // distinta (escritorio / tableta / teléfono).
         escena.widthProperty().addListener((obs, anchoAnterior, anchoNuevo) ->
-                actualizarModoResponsive(tabPane, anchoNuevo.doubleValue()));
-        actualizarModoResponsive(tabPane, escena.getWidth());
+                actualizarModoResponsive(raiz, anchoNuevo.doubleValue()));
+        actualizarModoResponsive(raiz, escena.getWidth());
 
         return escena;
+    }
+
+    private ToggleButton crearBotonMenu(String texto, ToggleGroup grupo) {
+        ToggleButton boton = new ToggleButton(texto);
+        boton.setToggleGroup(grupo);
+        boton.setMaxWidth(Double.MAX_VALUE);
+        boton.setAlignment(Pos.CENTER_LEFT);
+        boton.getStyleClass().add("boton-menu");
+        // Evita que al hacer clic en el botón ya activo quede sin ninguna opción seleccionada.
+        boton.addEventFilter(javafx.scene.input.MouseEvent.MOUSE_PRESSED, ev -> {
+            if (boton.isSelected()) {
+                ev.consume();
+            }
+        });
+        return boton;
+    }
+
+    private void mostrarModulo(BorderPane raiz, Label lblModulo, String titulo, javafx.scene.Node contenido) {
+        lblModulo.setText(titulo);
+        raiz.setCenter(contenido);
+    }
+
+    private void cerrarSesion(BorderPane raiz) {
+        Alert confirmacion = new Alert(AlertType.CONFIRMATION, "¿Deseas cerrar la sesión?");
+        confirmacion.setTitle("Cerrar sesión");
+        confirmacion.showAndWait().ifPresent(respuesta -> {
+            if (respuesta != ButtonType.OK) {
+                return;
+            }
+            try {
+                Sesion.cerrar();
+                Stage stage = (Stage) raiz.getScene().getWindow();
+                javafx.scene.Parent login = new FXMLLoader(getClass().getResource("login.fxml")).load();
+                Scene escenaLogin = new Scene(login);
+                escenaLogin.getStylesheets().add(getClass().getResource("/com/puntoventa/css/styles.css").toExternalForm());
+                stage.setScene(escenaLogin);
+                stage.setTitle("Sistema Punto de Venta - Login");
+            } catch (Exception ex) {
+                new Alert(AlertType.ERROR, "No se pudo volver al login: " + ex.getMessage()).showAndWait();
+            }
+        });
     }
 
     private void actualizarModoResponsive(javafx.scene.Parent raiz, double ancho) {
@@ -144,7 +240,7 @@ public class DashboardController {
                     crearTarjetaKpi("Stock bajo (<10)", String.valueOf(datos.stockBajo))
             );
             // El valor monetario del inventario no se muestra a Operador; en su lugar ve categorías.
-            if ("Operador".equals(rolActual)) {
+            if (Roles.CAJERO.equals(rolActual)) {
                 filaKpis.getChildren().add(crearTarjetaKpi("Categorías", String.valueOf(datos.categoriasRegistradas)));
             } else {
                 filaKpis.getChildren().add(crearTarjetaKpi("Valor inventario", String.format("$%.2f", datos.valorInventario)));
@@ -236,8 +332,8 @@ public class DashboardController {
         Button btnEliminar = new Button("Eliminar");
         btnEliminar.getStyleClass().add("button-peligro");
 
-        boolean esOperador = "Operador".equals(rolActual);
-        boolean esAdmin = "Administrador".equals(rolActual);
+        boolean esOperador = Roles.CAJERO.equals(rolActual);
+        boolean esAdmin = Roles.ADMINISTRADOR.equals(rolActual);
         ocultar(btnNuevo, esOperador);
         ocultar(btnEditar, esOperador);
         ocultar(btnEliminar, !esAdmin);
@@ -318,8 +414,8 @@ public class DashboardController {
         Button btnEliminar = new Button("Eliminar");
         btnEliminar.getStyleClass().add("button-peligro");
 
-        boolean esOperador = "Operador".equals(rolActual);
-        boolean esAdmin = "Administrador".equals(rolActual);
+        boolean esOperador = Roles.CAJERO.equals(rolActual);
+        boolean esAdmin = Roles.ADMINISTRADOR.equals(rolActual);
         ocultar(btnEditar, esOperador);
         ocultar(btnEliminar, !esAdmin);
 
@@ -405,7 +501,7 @@ public class DashboardController {
 
         Button btnAgregar = new Button("Agregar categoría");
         btnAgregar.getStyleClass().add("button-primario");
-        ocultar(btnAgregar, "Operador".equals(rolActual));
+        ocultar(btnAgregar, Roles.CAJERO.equals(rolActual));
 
         btnAgregar.setOnAction(e -> {
             try {
@@ -532,8 +628,8 @@ public class DashboardController {
         lblTitulo.getStyleClass().add("label-titulo");
 
         Label lblExplicacion = new Label(
-                "Administrador".equals(rolActual) ? "Tu informe incluye productos, clientes y el listado de usuarios."
-                : "Supervisor".equals(rolActual) ? "Tu informe incluye productos y clientes completos."
+                Roles.ADMINISTRADOR.equals(rolActual) ? "Tu informe incluye productos, clientes y el listado de usuarios."
+                : !Roles.CAJERO.equals(rolActual) ? "Tu informe incluye productos y clientes completos."
                 : "Tu informe incluye productos (sin precio) y clientes (sin datos de contacto).");
         lblExplicacion.setWrapText(true);
 
