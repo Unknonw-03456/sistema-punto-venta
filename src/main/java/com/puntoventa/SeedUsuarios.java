@@ -20,11 +20,13 @@ public class SeedUsuarios {
     public static void main(String[] args) throws Exception {
         crearSiNoExiste("admin", "admin123", "Administrador General", "Administrador", "Administrador");
         crearSiNoExiste("supervisor", "super123", "Supervisor de Tienda", "Supervisor", "Supervisor");
-        crearSiNoExiste("operador", "oper123", "Operador de Caja", "Operador", "Operador");
+        crearSiNoExiste("operador", "oper123", "Operador de Caja", "Cajero", "Cajero");
+        crearSiNoExiste("encargado", "encar123", "Encargado de Inventario", "Encargado de inventario", "Encargado de inventario");
 
         System.out.println("Listo. Usuarios de prueba creados (o ya existían).");
         System.out.println("admin / admin123");
         System.out.println("supervisor / super123");
+        System.out.println("encargado / encar123");
         System.out.println("operador / oper123");
     }
 

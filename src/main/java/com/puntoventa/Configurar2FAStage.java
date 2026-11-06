@@ -56,6 +56,10 @@ public class Configurar2FAStage {
         ImageView imagenQr = new ImageView(new Image(urlQr, true));
         imagenQr.setFitWidth(220);
         imagenQr.setFitHeight(220);
+        TextField txtClave = new TextField(secreto);
+        txtClave.setEditable(false);
+        Label lblClave = new Label("Si no ves el QR, escribe esta clave manualmente en tu app:");
+        lblClave.setWrapText(true);
 
         TextField txtCodigo = new TextField();
         txtCodigo.setPromptText("Código de 6 dígitos");
@@ -87,8 +91,8 @@ public class Configurar2FAStage {
             callback.onCancelado();
         });
 
-        VBox contenedor = new VBox(14, lblInstrucciones, imagenQr, txtCodigo,
-                new HBox(10, btnConfirmar, btnCancelar), lblError);
+        VBox contenedor = new VBox(14, lblInstrucciones, imagenQr, lblClave, txtClave, txtCodigo,
+        new HBox(10, btnConfirmar, btnCancelar), lblError);
         contenedor.setPadding(new Insets(20));
 
         Scene scene = new Scene(contenedor);

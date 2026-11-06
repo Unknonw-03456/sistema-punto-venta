@@ -103,15 +103,29 @@ public class DashboardController {
         btnCategorias.setOnAction(e -> mostrarModulo(raiz, lblModulo, "Categorías", crearTabCategorias().getContent()));
 
         ToggleButton btnReportes = crearBotonMenu("\u2261  Reportes", grupo);
-        btnReportes.setOnAction(e -> mostrarModulo(raiz, lblModulo, "Reportes", crearTabReportes().getContent()));
+       btnReportes.setOnAction(e -> mostrarModulo(raiz, lblModulo, "Reportes", ReportesPantalla.crear()));
 
         menu.getChildren().addAll(btnInicio, btnProductos, btnClientes, btnCategorias, btnReportes);
 
-        if (Roles.ADMINISTRADOR.equals(rolActual)) {
-            ToggleButton btnUsuarios = crearBotonMenu("\u2699  Usuarios", grupo);
-            btnUsuarios.setOnAction(e -> mostrarModulo(raiz, lblModulo, "Usuarios", crearTabUsuarios().getContent()));
-            menu.getChildren().add(btnUsuarios);
-        }
+        if (Roles.ADMINISTRADOR.equals(rolActual) || Roles.CAJERO.equals(rolActual)) {
+    ToggleButton btnVentas = crearBotonMenu("\u2605  Ventas", grupo);
+    btnVentas.setOnAction(e -> mostrarModulo(raiz, lblModulo, "Ventas", VentasPantalla.crear()));
+    ToggleButton btnCaja = crearBotonMenu("\u25CE  Caja", grupo);
+    btnCaja.setOnAction(e -> mostrarModulo(raiz, lblModulo, "Caja", CajaPantalla.crear()));
+    menu.getChildren().addAll(btnVentas, btnCaja);
+
+        if (!Roles.CAJERO.equals(rolActual)) {
+                ToggleButton btnCompras = crearBotonMenu("\u2630  Compras", grupo);
+                btnCompras.setOnAction(e -> mostrarModulo(raiz, lblModulo, "Compras", CompraPantalla.crear()));
+              menu.getChildren().add(btnCompras);
+            }
+
+            if (!Roles.ENCARGADO_INVENTARIO.equals(rolActual)) {
+                 ToggleButton btnHist = crearBotonMenu("\u2630  Historial ventas", grupo);
+                btnHist.setOnAction(e -> mostrarModulo(raiz, lblModulo, "Historial de ventas", HistorialVentasPantalla.crear()));
+                menu.getChildren().add(btnHist);
+}
+}
 
         raiz.setTop(barraSuperior);
         raiz.setLeft(menu);
@@ -245,6 +259,7 @@ public class DashboardController {
             } else {
                 filaKpis.getChildren().add(crearTarjetaKpi("Valor inventario", String.format("$%.2f", datos.valorInventario)));
             }
+            
 
             BarChart<String, Number> graficoBarras = crearGraficoBarras(datos.productosPorCategoria);
             PieChart graficoCircular = crearGraficoCircular(datos.stockPorCategoria);

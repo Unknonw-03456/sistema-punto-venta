@@ -38,7 +38,7 @@ public class ReportePdfGenerator {
     public static void generar(File archivoDestino, LocalDate desde, LocalDate hasta) throws Exception {
         String rol = Sesion.getRolActual();
         String generadoPor = Sesion.getActual().getNombre() + " (" + rol + ")";
-        boolean esOperador = "Operador".equals(rol);
+        boolean esOperador = Roles.CAJERO.equals(rol);
         boolean esAdmin = "Administrador".equals(rol);
 
         Document documento = new Document(PageSize.LETTER, 40, 40, 50, 40);

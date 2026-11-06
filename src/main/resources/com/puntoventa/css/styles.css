@@ -209,3 +209,22 @@
 .modo-telefono .tab-pane .tab .tab-label {
     -fx-font-size: 10px;
 }
+
+/* ===== Menú lateral y barra superior ===== */
+.menu-marca { -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; }
+.menu-submarca { -fx-text-fill: #BAE6FD; -fx-font-size: 11px; -fx-padding: 0 0 14 0; }
+
+.boton-menu {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10 14 10 14;
+    -fx-background-radius: 6;
+    -fx-border-color: transparent;
+}
+.boton-menu:hover { -fx-background-color: rgba(255,255,255,0.12); }
+.boton-menu:selected { -fx-background-color: -color-acento; -fx-text-fill: #0F172A; -fx-font-weight: bold; }
+
+.barra-superior { -fx-background-color: -color-superficie; -fx-border-color: #E2E8F0; -fx-border-width: 0 0 1 0; }
+.encabezado-modulo { -fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: -color-primario; }
+.encabezado-usuario { -fx-text-fill: #475569; }
