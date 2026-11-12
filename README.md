@@ -82,6 +82,16 @@ Este proyecto se desarrolló con asistencia de IA (Claude) como apoyo en distint
 - **Fase 8 (DAO/HikariCP):** refactorización a patrón DAO, externalización de credenciales y configuración del pool de conexiones.
 - **Fase 9 (migración a la nube):** guía paso a paso para la configuración del hosting MyASP.NET, resolución de errores de importación SQL y generación del ejecutable con jpackage.
 
+## Instalación en otra computadora
+1. Instalar JDK 21 o superior y MySQL 8 (o usar la base en la nube).
+2. Crear una base de datos e importar database/ScriptSQL.sql.
+3. Copiar config.properties.example como config.properties y completar los datos de conexión.
+4. Ejecutar: mvn clean javafx:run
+5. Crear los usuarios iniciales con SeedUsuarios (admin, supervisor, operador, encargado).
+
+Roles: Administrador, Supervisor, Cajero, Encargado de inventario.
+Flujo de demostración: iniciar sesión → registrar producto → compra → abrir caja → venta → factura → anular venta → cerrar caja → reportes.
+
 Todo el código generado con IA fue revisado, probado y ajustado por el autor antes de su integración.
 
 ## Autor
