@@ -59,6 +59,20 @@ public class VentaDAO {
             int idEmpleado = EmpleadoDAO.obtenerIdEmpleado(con, idUsuario);
             verificarCajaAbierta(con, idCaja, idEmpleado);
 
+             String rolUsuario = null;
+            try (PreparedStatement stmtRol = con.prepareStatement(
+             "SELECT r.nombre FROM empleados e JOIN roles r ON r.id_rol = e.id_rol WHERE e.id_empleado = ?")) {
+            stmtRol.setInt(1, idEmpleado);
+            try (ResultSet rsRol = stmtRol.executeQuery()) {
+        if (rsRol.next()) rolUsuario = rsRol.getString(1);
+              }
+            }
+                    try {
+    com.puntoventa.service.PoliticaDescuento.validar(rolUsuario, descuentoPct);
+} catch (IllegalArgumentException e) {
+    throw new Exception(e.getMessage());
+}
+
             // Se juntan las cantidades por producto (ordenadas por código para evitar bloqueos cruzados).
             Map<String, Integer> cantidades = new TreeMap<>();
             for (LineaVenta linea : carrito) {
