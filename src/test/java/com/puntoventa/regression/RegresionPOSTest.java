@@ -38,7 +38,7 @@ class RegresionPOSTest {
         CalculoFactura.Resultado r = CalculoFactura.calcular(unaLinea(1, 500.00), 0, 18, false, null);
         assertEquals(new BigDecimal("500.00"), r.subtotal);
         assertEquals(new BigDecimal("90.00"), r.itbis);
-        assertEquals(new BigDecimal("591.00"), r.total);
+        assertEquals(new BigDecimal("590.00"), r.total);
     }
 
     @Test
