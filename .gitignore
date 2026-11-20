@@ -1,2 +1,4 @@
 target/
 src/main/resources/config.propertiesinstalador/ 
+
+src/main/resources/config.properties
