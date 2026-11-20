@@ -19,5 +19,5 @@ IDs RG = automáticas; M = manuales. Columna "Cómo se prueba": JUnit = automát
 | M-04 | Anulación | Manual | estado ANULADA, stock devuelto, reintegro en caja | Aprobada — 19/11/2026, la venta queda ANULADA y el stock vuelve |
 | M-05 | Arqueo de caja | Manual | cierre sin diferencia | Aprobada — 19/11/2026, el cierre calcula la diferencia |
 | M-06 | Factura PDF | Manual | factura clara con ITBIS y total | Aprobada — 19/11/2026, PDF con ITBIS y total |
-| M-07 | Rollback con git revert | Manual | el sistema vuelve al estado anterior y compila | No ejecutada (cambiar a Aprobada solo después de hacerla, con capturas) |
+| M-07 | Rollback con git revert | Manual |Aprobada — 20/11/2026. git revert -m 1 feb1f30 creó b5e742a; PoliticaDescuento.java desapareció; mvn clean test BUILD SUCCESS (25 pruebas, sin RegresionPOSTest)|
 

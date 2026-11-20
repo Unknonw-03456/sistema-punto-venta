@@ -10,6 +10,6 @@
 | CH-006 | 2026-11-17 | master | Integración | Pull Request de feature/descuento-maximo a master, con chequeo verde y merge | Captura del Pull Request | Cerrado |
 | CH-007 | 2026-11-17 | — | Entorno | Git falló con "No space left on device" por disco C: lleno. Se liberó espacio y se repitió el commit | Mensaje de error y commit posterior | Cerrado |
 | CH-008 | 2026-11-18 | — | Despliegue | FTPS a MyASP.NET (WIN8120.SITE4NOW.NET:21): certificado `*.site4now.net` verificado, pero el servidor respondió `530 User cannot log in.` (log de WinSCP). Causa: contraseña de la cuenta FTP raíz. Corrección: restablecida desde Sitios web, site1, FTP. Vista previa y publicación en `/site1/staging` con WinSCP (`deploy-preview.txt` y `deploy-staging.txt`, sin `-delete`) con `version.txt` y README | Log del error 530, capturas de la vista previa, de la publicación y del listado de staging | Cerrado |
-| CH-009 | 2026-11-19 | prueba/rollback | Despliegue / Rollback | Prueba de rollback con `git revert -m 1` del merge de la mejora, en una rama aparte, sin modificar master | (pendiente: capturas de `git log`, `dir` y `mvn clean test`) | **Abierto** |
+| CH-009 | 2026-11-19 | prueba/rollback | Despliegue / Rollback | Prueba de rollback con `git revert -m 1` del merge de la mejora, en una rama aparte, sin modificar master | evidencia Capturas de git log, dir y mvn clean test |Cerrado,  2026-11-20. |
 
 Formato de incidente: ID, fecha, commit, módulo, síntomas, pasos de reproducción, evidencia, causa probable, corrección, pruebas posteriores, estado final.
