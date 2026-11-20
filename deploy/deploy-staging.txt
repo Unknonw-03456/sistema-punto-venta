@@ -1,0 +1,6 @@
+option batch abort
+option confirm off
+open SFTP-PRUEBAS
+# PUBLICACION EN STAGING (solo tras revisar la vista previa y recibir autorizacion). Sin -delete.
+synchronize remote "C:\Users\Unknow\Desktop\Proyectos\Projecto_UNEV\sistema-punto-venta\instalador\distribucion" "/app-staging"
+exit

@@ -1,0 +1,26 @@
+name: Control de calidad
+on:
+  push:
+    branches: [master, develop, 'feature/**']
+  pull_request:
+    branches: [master]
+permissions:
+  contents: read
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - name: Compilar y ejecutar pruebas (unitarias + regresión)
+        run: mvn -B clean test
+      - name: Guardar reportes de pruebas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reportes-surefire
+          path: target/surefire-reports/

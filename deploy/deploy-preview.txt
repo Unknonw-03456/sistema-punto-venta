@@ -1,0 +1,7 @@
+option batch abort
+option confirm off
+# Sesion guardada en WinSCP (SFTP-PRUEBAS) con la identidad (huella) del servidor verificada.
+open SFTP-PRUEBAS
+# VISTA PREVIA: muestra lo que se transferiria, NO publica. Sin -delete (no borra nada remoto).
+synchronize remote -preview "C:\Users\Unknow\Desktop\Proyectos\Projecto_UNEV\sistema-punto-venta\instalador\distribucion" "/app-staging"
+exit
